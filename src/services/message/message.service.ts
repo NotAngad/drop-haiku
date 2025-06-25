@@ -1,6 +1,10 @@
+/** Model */
 import { Messages } from "../../models/message/Message";
 
-// src/services/message.service.ts
+/** DTOs */
+import { LikeMessageDTO } from "routes/message/dtos/LikeMessage.dto";
+import { DislikeMessageDTO } from "routes/message/dtos/DislikeMessage.dto";
+
 export interface Message {
   id: string;
   content: string;
@@ -15,20 +19,20 @@ export class MessageService {
     return messages;
   }
 
-  static async likeMessage<T>(id: any, likeValue: boolean): Promise<any> {
+  static async likeMessage({ id, likedValue }: LikeMessageDTO): Promise<any> {
     const updatedMessage = await Messages.findByIdAndUpdate(
       id,
-      { liked: likeValue },
+      { liked: likedValue },
       { new: true }
     );
 
     return updatedMessage;
   }
 
-  static async dislikeMessage<T>(
-    id: any,
-    dislikedValue: boolean
-  ): Promise<any> {
+  static async dislikeMessage({
+    id,
+    dislikedValue,
+  }: DislikeMessageDTO): Promise<any> {
     const updatedMessage = await Messages.findByIdAndUpdate(
       id,
       { disliked: dislikedValue },

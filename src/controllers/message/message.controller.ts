@@ -1,13 +1,19 @@
-// src/controllers/message.controller.ts
+/** Library */
 import { Request, Response, NextFunction } from "express";
+
+/** Service */
 import {
-  MessageService,
   Message,
+  MessageService,
 } from "../../services/message/message.service";
+
+/** DTOs */
+import { LikeMessageDTO } from "routes/message/dtos/LikeMessage.dto";
+import { DislikeMessageDTO } from "routes/message/dtos/DislikeMessage.dto";
 
 export class MessageController {
   static async getAllMessages(
-    req: Request,
+    _req: Request,
     res: Response<Message[]>,
     next: NextFunction
   ): Promise<void> {
@@ -20,15 +26,13 @@ export class MessageController {
   }
 
   static async likeMessage(
-    req: Request,
+    req: Request<{}, {}, LikeMessageDTO>,
     res: Response<Message[]>,
     next: NextFunction
   ): Promise<void> {
     try {
-      const message = await MessageService.likeMessage(
-        req?.body?.id,
-        req.body?.likedValue
-      );
+      const { id, likedValue } = req?.body || {};
+      const message = await MessageService.likeMessage({ id, likedValue });
       res.status(200).json(message);
     } catch (error) {
       next(error);
@@ -36,15 +40,16 @@ export class MessageController {
   }
 
   static async disLikeMessage(
-    req: Request,
+    req: Request<{}, {}, DislikeMessageDTO>,
     res: Response<Message[]>,
     next: NextFunction
   ): Promise<void> {
     try {
-      const message = await MessageService.dislikeMessage(
-        req?.body?.id,
-        req.body?.dislikedValue
-      );
+      const { id, dislikedValue } = req?.body;
+      const message = await MessageService.dislikeMessage({
+        id,
+        dislikedValue,
+      });
       res.status(200).json(message);
     } catch (error) {
       next(error);
@@ -52,7 +57,7 @@ export class MessageController {
   }
 
   static async getRandomUnusedMessageAndMarkUsed(
-    req: Request,
+    _req: Request,
     res: Response,
     next: NextFunction
   ): Promise<void> {
