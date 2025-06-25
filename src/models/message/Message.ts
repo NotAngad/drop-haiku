@@ -1,5 +1,4 @@
-// models/Message.ts
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IMessage extends Document {
   content: string;
@@ -15,4 +14,4 @@ const MessagesSchema = new Schema<IMessage>({
   hasBeenUsed: { type: Boolean, default: false },
 });
 
-export const Messages = mongoose.model<IMessage>("Messages", MessagesSchema);
+export const Messages = mongoose.model<IMessage>('Messages', MessagesSchema);

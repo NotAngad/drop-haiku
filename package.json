@@ -5,19 +5,33 @@
   "scripts": {
     "dev": "nodemon --exec ts-node src/index.ts",
     "start": "node dist/index.js",
-    "build": "tsc"
+    "build": "tsc",
+    "lint": "eslint src/ --ext .js,.ts,.jsx,.tsx",
+    "lint:fix": "eslint src/ --ext .js,.ts,.jsx,.tsx --fix",
+    "format": "prettier src/ --check",
+    "format:fix": "prettier src/ --write",
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@eslint/js": "^9.29.0",
     "@types/express": "^5.0.3",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.0.3",
+    "eslint": "^9.29.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.5.1",
+    "globals": "^16.2.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
     "nodemon": "^3.1.10",
+    "prettier": "^3.6.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.35.0"
   },
   "dependencies": {
     "@types/cors": "^2.8.19",
@@ -29,5 +43,11 @@
     "joi": "^17.13.3",
     "mongoose": "^8.16.0",
     "morgan": "^1.10.0"
+  },
+  "lint-staged": {
+    "*.{js,ts,jsx,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }

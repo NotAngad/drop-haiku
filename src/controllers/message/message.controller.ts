@@ -1,21 +1,18 @@
 /** Library */
-import { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from 'express';
 
 /** Service */
-import {
-  Message,
-  MessageService,
-} from "../../services/message/message.service";
+import { Message, MessageService } from '../../services/message/message.service';
 
 /** DTOs */
-import { LikeMessageDTO } from "routes/message/dtos/LikeMessage.dto";
-import { DislikeMessageDTO } from "routes/message/dtos/DislikeMessage.dto";
+import { LikeMessageDTO } from 'routes/message/dtos/LikeMessage.dto';
+import { DislikeMessageDTO } from 'routes/message/dtos/DislikeMessage.dto';
 
 export class MessageController {
   static async getAllMessages(
     _req: Request,
     res: Response<Message[]>,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void> {
     try {
       const messages = await MessageService.getAllMessages();
@@ -28,7 +25,7 @@ export class MessageController {
   static async likeMessage(
     req: Request<{}, {}, LikeMessageDTO>,
     res: Response<Message[]>,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void> {
     try {
       const { id, likedValue } = req?.body || {};
@@ -42,10 +39,10 @@ export class MessageController {
   static async disLikeMessage(
     req: Request<{}, {}, DislikeMessageDTO>,
     res: Response<Message[]>,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void> {
     try {
-      const { id, dislikedValue } = req?.body;
+      const { id, dislikedValue } = req?.body || {};
       const message = await MessageService.dislikeMessage({
         id,
         dislikedValue,
@@ -59,7 +56,7 @@ export class MessageController {
   static async getRandomUnusedMessageAndMarkUsed(
     _req: Request,
     res: Response,
-    next: NextFunction
+    next: NextFunction,
   ): Promise<void> {
     try {
       const message = await MessageService.getRandomUnusedMessageAndMarkUsed();
@@ -69,19 +66,17 @@ export class MessageController {
     }
   }
 
-  static async getMessageBasedOnId(
-    req: Request,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> {
+  static async someCode() {
+    console.log('wow01');
+  }
+
+  static async getMessageBasedOnId(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       if (!req.params.id) {
         res.status(404).json({ isSuccess: false });
       }
 
-      const message = await MessageService.getMessageBasedOnId(
-        `${req.params.id}`
-      );
+      const message = await MessageService.getMessageBasedOnId(`${req.params.id}`);
       res.status(200).json(message);
     } catch (error) {
       next(error);

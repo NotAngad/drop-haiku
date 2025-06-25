@@ -1,9 +1,9 @@
 /** Model */
-import { Messages } from "../../models/message/Message";
+import { Messages } from '../../models/message/Message';
 
 /** DTOs */
-import { LikeMessageDTO } from "routes/message/dtos/LikeMessage.dto";
-import { DislikeMessageDTO } from "routes/message/dtos/DislikeMessage.dto";
+import { LikeMessageDTO } from 'routes/message/dtos/LikeMessage.dto';
+import { DislikeMessageDTO } from 'routes/message/dtos/DislikeMessage.dto';
 
 export interface Message {
   id: string;
@@ -23,20 +23,17 @@ export class MessageService {
     const updatedMessage = await Messages.findByIdAndUpdate(
       id,
       { liked: likedValue },
-      { new: true }
+      { new: true },
     );
 
     return updatedMessage;
   }
 
-  static async dislikeMessage({
-    id,
-    dislikedValue,
-  }: DislikeMessageDTO): Promise<any> {
+  static async dislikeMessage({ id, dislikedValue }: DislikeMessageDTO): Promise<any> {
     const updatedMessage = await Messages.findByIdAndUpdate(
       id,
       { disliked: dislikedValue },
-      { new: true }
+      { new: true },
     );
 
     return updatedMessage;
@@ -49,14 +46,14 @@ export class MessageService {
     ]);
 
     if (!randomMsg) {
-      console.log("No unused messages found");
+      console.log('No unused messages found');
       return null;
     }
 
     const updatedMessage = await Messages.findByIdAndUpdate(
       randomMsg._id,
       { hasBeenUsed: true },
-      { new: true }
+      { new: true },
     );
 
     return updatedMessage;
