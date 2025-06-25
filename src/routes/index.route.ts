@@ -1,12 +1,12 @@
 /** Library */
-import { Router } from "express";
+import { Router } from 'express';
 
 /** Route */
-import messageRoutes from "./message/message.route";
+import messageRoutes from './message/message.route';
 
 const router = Router();
 
 /** Messages routes */
-router.use("/messages", messageRoutes);
+router.use('/messages', messageRoutes);
 
 export default router;
