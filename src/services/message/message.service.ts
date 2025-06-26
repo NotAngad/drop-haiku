@@ -60,7 +60,7 @@ export class MessageService {
   }
 
   static async getMessageBasedOnId(id: string) {
-    const message = await Messages.find({ _id: id });
+    const message = await Messages.findOne({ _id: id });
     return message;
   }
 }

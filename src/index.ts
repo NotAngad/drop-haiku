@@ -1,7 +1,7 @@
 /** Library */
 import cors from 'cors';
 import helmet from 'helmet';
-import express, { Application, Request, Response } from 'express';
+import express, { Application, NextFunction, Request, Response } from 'express';
 
 /** Routes */
 import routes from './routes/index.route';
@@ -41,7 +41,8 @@ app.get('/health', (_req: Request, res: Response) => {
 
 app.use('/api', routes);
 
-app.use((err: any, _req: Request, res: Response) => {
+// eslint-disable-next-line no-unused-vars
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error('Error:', err);
 
   const statusCode = err.statusCode || err.status || 500;
@@ -55,7 +56,7 @@ app.use((err: any, _req: Request, res: Response) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 app.listen(PORT, () => {
