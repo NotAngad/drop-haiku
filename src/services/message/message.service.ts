@@ -1,9 +1,6 @@
 /** Model */
-import { Messages } from '../../models/message/Message';
-
-/** DTOs */
-import { LikeMessageDTO } from 'routes/message/dtos/LikeMessage.dto';
-import { DislikeMessageDTO } from 'routes/message/dtos/DislikeMessage.dto';
+import { LikeDislikeMessageDTO } from 'routes/message/dtos/LikeDislikeMessage.dto';
+import { IMessageDocument, Messages } from '../../models/message/Message';
 
 export interface Message {
   id: string;
@@ -14,53 +11,56 @@ export interface Message {
 }
 
 export class MessageService {
-  static async getAllMessages(): Promise<any[]> {
+  static async getAllMessages(): Promise<IMessageDocument[] | null> {
     const messages = await Messages.find({});
     return messages;
   }
 
-  static async likeMessage({ id, likedValue }: LikeMessageDTO): Promise<any> {
-    const updatedMessage = await Messages.findByIdAndUpdate(
-      id,
-      { liked: likedValue },
-      { new: true },
-    );
+  static async getRandomUnusedMessageAndMarkUsed(): Promise<IMessageDocument | null> {
+    try {
+      const [randomMsg] = await Messages.aggregate([
+        { $match: { hasBeenUsed: false } },
+        { $sample: { size: 1 } },
+      ]);
 
-    return updatedMessage;
-  }
+      if (!randomMsg) {
+        return null;
+      }
 
-  static async dislikeMessage({ id, dislikedValue }: DislikeMessageDTO): Promise<any> {
-    const updatedMessage = await Messages.findByIdAndUpdate(
-      id,
-      { disliked: dislikedValue },
-      { new: true },
-    );
+      const updatedMessage = await Messages.findByIdAndUpdate(
+        randomMsg._id,
+        { hasBeenUsed: true },
+        { new: true },
+      );
 
-    return updatedMessage;
-  }
-
-  static async getRandomUnusedMessageAndMarkUsed() {
-    const [randomMsg] = await Messages.aggregate([
-      { $match: { hasBeenUsed: false } },
-      { $sample: { size: 1 } },
-    ]);
-
-    if (!randomMsg) {
-      console.log('No unused messages found');
+      return updatedMessage;
+    } catch (error) {
+      console.error('Logging error in getRandomUnusedMessageAndMarkUsed', { error });
       return null;
     }
-
-    const updatedMessage = await Messages.findByIdAndUpdate(
-      randomMsg._id,
-      { hasBeenUsed: true },
-      { new: true },
-    );
-
-    return updatedMessage;
   }
 
-  static async getMessageBasedOnId(id: string) {
-    const message = await Messages.findOne({ _id: id });
-    return message;
+  static async getMessageBasedOnId(id: string): Promise<IMessageDocument | null> {
+    try {
+      const message = await Messages.findOne({ _id: id });
+      return message;
+    } catch (error) {
+      console.error('Logging error in getMessageBasedOnId', { error });
+      return null;
+    }
+  }
+
+  static async likeDislikeMessage({
+    id,
+    type,
+    value,
+  }: LikeDislikeMessageDTO): Promise<IMessageDocument | null> {
+    try {
+      const message = await Messages.findByIdAndUpdate(id, { [type]: value }, { new: true });
+      return message;
+    } catch (error) {
+      console.error('Logging error in likeDislikeMessage', { error });
+      return null;
+    }
   }
 }

@@ -1,20 +1,12 @@
-/** Library */
-import { Request, Response, NextFunction } from 'express';
-
+'use strict';
+Object.defineProperty(exports, '__esModule', { value: true });
+exports.MessageController = void 0;
 /** Service */
-import { MessageService } from '../../services/message/message.service';
-
-/** Model */
-import { IMessageDocument } from 'models/message/Message';
-
-/** DTO */
-import { LikeDislikeMessageDTO } from 'routes/message/dtos/LikeDislikeMessage.dto';
-
-export class MessageController {
-  static async getAllMessages(_req: Request, res: Response, next: NextFunction): Promise<void> {
+const message_service_1 = require('../../services/message/message.service');
+class MessageController {
+  static async getAllMessages(_req, res, next) {
     try {
-      const messages: IMessageDocument[] | null = await MessageService.getAllMessages();
-
+      const messages = await message_service_1.MessageService.getAllMessages();
       if (!messages || !messages?.length) {
         res.status(404).send({
           isSuccess: false,
@@ -23,7 +15,6 @@ export class MessageController {
           message: `The resource you requested could not be found.`,
         });
       }
-
       res.status(200).json({
         isSuccess: true,
         data: messages,
@@ -34,15 +25,9 @@ export class MessageController {
       next(error);
     }
   }
-
-  static async getRandomUnusedMessageAndMarkUsed(
-    _req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
+  static async getRandomUnusedMessageAndMarkUsed(_req, res, next) {
     try {
-      const message = await MessageService.getRandomUnusedMessageAndMarkUsed();
-
+      const message = await message_service_1.MessageService.getRandomUnusedMessageAndMarkUsed();
       if (!message) {
         res.status(404).send({
           isSuccess: false,
@@ -51,7 +36,6 @@ export class MessageController {
           message: `The resource you requested could not be found.`,
         });
       }
-
       res.status(200).json({
         isSuccess: true,
         data: message,
@@ -62,17 +46,13 @@ export class MessageController {
       next(error);
     }
   }
-
-  static async getMessageBasedOnId(req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async getMessageBasedOnId(req, res, next) {
     try {
       const { id } = req.params;
-
       if (!id) {
         res.status(404).json({ isSuccess: false });
       }
-
-      const message: IMessageDocument | null = await MessageService.getMessageBasedOnId(`${id}`);
-
+      const message = await message_service_1.MessageService.getMessageBasedOnId(`${id}`);
       if (!message) {
         res.status(404).send({
           isSuccess: false,
@@ -81,7 +61,6 @@ export class MessageController {
           message: `The resource you requested could not be found.`,
         });
       }
-
       res.status(200).json({
         isSuccess: true,
         data: message,
@@ -92,21 +71,14 @@ export class MessageController {
       next(error);
     }
   }
-
-  static async likeDislikeMessage(
-    req: Request<{}, {}, LikeDislikeMessageDTO>,
-    res: Response,
-    next: NextFunction,
-  ): Promise<any> {
+  static async likeDislikeMessage(req, res, next) {
     try {
       const { id, value, type } = req?.body || {};
-
-      const message: IMessageDocument | null = await MessageService.likeDislikeMessage({
+      const message = await message_service_1.MessageService.likeDislikeMessage({
         id,
         type,
         value,
       });
-
       if (!message) {
         return res.status(404).send({
           isSuccess: false,
@@ -115,7 +87,6 @@ export class MessageController {
           message: `The resource you requested could not be found.`,
         });
       }
-
       return res.status(200).json({
         isSuccess: true,
         data: message,
@@ -127,3 +98,4 @@ export class MessageController {
     }
   }
 }
+exports.MessageController = MessageController;
