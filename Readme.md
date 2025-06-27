@@ -1,4 +1,4 @@
-# Drop Haiku
+# Drop Haiku 🖊️
 
 Drop haiku is an api service that allows a user to fetch a haiku out of random. These are mostly cute, romantic and a little cringe in nature.
 
