@@ -14,14 +14,14 @@ import { SeenMessageDTO } from 'routes/message/dtos/SeenMessage.dto';
 export class MessageController {
   static async getAllMessages(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      const messages: IMessageDocument[] | null = await MessageService.getAllMessages({
+      const { messages, totalCount }: any = await MessageService.getAllMessages({
         pageNumber: Number(req?.query?.pageNumber) || null,
         limit: Number(req?.query?.limit) || null,
       });
 
       return res.status(200).json({
         isSuccess: true,
-        data: messages,
+        data: { messages, totalCount },
         statusCode: 200,
         message: 'Record updated successfully.',
       });

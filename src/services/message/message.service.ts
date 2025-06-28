@@ -14,18 +14,24 @@ export class MessageService {
   static async getAllMessages(data: {
     pageNumber: number | null;
     limit: number | null;
-  }): Promise<IMessageDocument[] | null> {
+  }): Promise<any> {
     const { pageNumber, limit } = data;
-    let messages;
+    let messages,
+      totalCount = 0;
 
     if (pageNumber && limit) {
       const skip = (pageNumber - 1) * limit;
-      messages = await Messages.find({ hasBeenUsed: true }).skip(skip).limit(limit);
+      const [paginatedMessages, paginatedTotalCount] = await Promise.all([
+        Messages.find({}).skip(skip).limit(limit),
+        Messages.countDocuments({}),
+      ]);
+      messages = paginatedMessages;
+      totalCount = paginatedTotalCount;
     } else {
       messages = await Messages.find({});
     }
 
-    return messages;
+    return { messages, totalCount };
   }
 
   static async getRandomUnusedMessageAndMarkUsed(): Promise<IMessageDocument | null> {
