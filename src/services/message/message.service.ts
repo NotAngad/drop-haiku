@@ -11,8 +11,20 @@ export interface Message {
 }
 
 export class MessageService {
-  static async getAllMessages(): Promise<IMessageDocument[] | null> {
-    const messages = await Messages.find({});
+  static async getAllMessages(data: {
+    pageNumber: number | null;
+    limit: number | null;
+  }): Promise<IMessageDocument[] | null> {
+    const { pageNumber, limit } = data;
+    let messages;
+
+    if (pageNumber && limit) {
+      const skip = (pageNumber - 1) * limit;
+      messages = await Messages.find({ hasBeenUsed: true }).skip(skip).limit(limit);
+    } else {
+      messages = await Messages.find({});
+    }
+
     return messages;
   }
 
@@ -73,7 +85,7 @@ export class MessageService {
   }): Promise<any> {
     try {
       const skip = (pageNumber - 1) * limit;
-      console.log({ skip, pageNumber, limit });
+
       const [messages, totalCount] = await Promise.all([
         Messages.find({ hasBeenUsed: true }).skip(skip).limit(limit),
         Messages.countDocuments({ hasBeenUsed: true }),

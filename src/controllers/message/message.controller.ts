@@ -12,9 +12,12 @@ import { LikeDislikeMessageDTO } from 'routes/message/dtos/LikeDislikeMessage.dt
 import { SeenMessageDTO } from 'routes/message/dtos/SeenMessage.dto';
 
 export class MessageController {
-  static async getAllMessages(_req: Request, res: Response, next: NextFunction): Promise<any> {
+  static async getAllMessages(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
-      const messages: IMessageDocument[] | null = await MessageService.getAllMessages();
+      const messages: IMessageDocument[] | null = await MessageService.getAllMessages({
+        pageNumber: Number(req?.query?.pageNumber) || null,
+        limit: Number(req?.query?.limit) || null,
+      });
 
       return res.status(200).json({
         isSuccess: true,
