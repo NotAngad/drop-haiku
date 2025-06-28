@@ -9,6 +9,7 @@ import likeDislikeSchema from './dtos/LikeDislikeMessage.dto';
 
 /** Controller */
 import { MessageController } from '../../controllers/message/message.controller';
+import seenMessageSchema from './dtos/SeenMessage.dto';
 
 const router = Router();
 
@@ -23,6 +24,13 @@ router.post(
   '/like-dislike-message',
   validateBody(likeDislikeSchema),
   MessageController.likeDislikeMessage,
+);
+
+/** Get all seen message in a pagination format */
+router.get(
+  '/seen-messages',
+  validateBody(seenMessageSchema, true),
+  MessageController.getSeenMessages,
 );
 
 /** Get a message based on Id */

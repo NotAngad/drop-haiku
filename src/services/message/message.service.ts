@@ -63,4 +63,26 @@ export class MessageService {
       return null;
     }
   }
+
+  static async getSeenMessages({
+    pageNumber,
+    limit,
+  }: {
+    pageNumber: number;
+    limit: number;
+  }): Promise<any> {
+    try {
+      const skip = (pageNumber - 1) * limit;
+      console.log({ skip, pageNumber, limit });
+      const [messages, totalCount] = await Promise.all([
+        Messages.find({ hasBeenUsed: true }).skip(skip).limit(limit),
+        Messages.countDocuments({ hasBeenUsed: true }),
+      ]);
+
+      return { messages, totalCount };
+    } catch (error) {
+      console.error('Logging error in likeDislikeMessage', { error });
+      return null;
+    }
+  }
 }

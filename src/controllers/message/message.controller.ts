@@ -9,22 +9,14 @@ import { IMessageDocument } from 'models/message/Message';
 
 /** DTO */
 import { LikeDislikeMessageDTO } from 'routes/message/dtos/LikeDislikeMessage.dto';
+import { SeenMessageDTO } from 'routes/message/dtos/SeenMessage.dto';
 
 export class MessageController {
-  static async getAllMessages(_req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async getAllMessages(_req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
       const messages: IMessageDocument[] | null = await MessageService.getAllMessages();
 
-      if (!messages || !messages?.length) {
-        res.status(404).send({
-          isSuccess: false,
-          data: {},
-          statusCode: 404,
-          message: `The resource you requested could not be found.`,
-        });
-      }
-
-      res.status(200).json({
+      return res.status(200).json({
         isSuccess: true,
         data: messages,
         statusCode: 200,
@@ -39,7 +31,7 @@ export class MessageController {
     _req: Request,
     res: Response,
     next: NextFunction,
-  ): Promise<void> {
+  ): Promise<any> {
     try {
       const message = await MessageService.getRandomUnusedMessageAndMarkUsed();
 
@@ -52,7 +44,7 @@ export class MessageController {
         });
       }
 
-      res.status(200).json({
+      return res.status(200).json({
         isSuccess: true,
         data: message,
         statusCode: 200,
@@ -63,18 +55,23 @@ export class MessageController {
     }
   }
 
-  static async getMessageBasedOnId(req: Request, res: Response, next: NextFunction): Promise<void> {
+  static async getMessageBasedOnId(req: Request, res: Response, next: NextFunction): Promise<any> {
     try {
       const { id } = req.params;
 
       if (!id) {
-        res.status(404).json({ isSuccess: false });
+        return res.status(400).json({
+          isSuccess: false,
+          data: {},
+          statusCode: 400,
+          message: `Bad Request`,
+        });
       }
 
       const message: IMessageDocument | null = await MessageService.getMessageBasedOnId(`${id}`);
 
       if (!message) {
-        res.status(404).send({
+        return res.status(404).send({
           isSuccess: false,
           data: {},
           statusCode: 404,
@@ -82,7 +79,7 @@ export class MessageController {
         });
       }
 
-      res.status(200).json({
+      return res.status(200).json({
         isSuccess: true,
         data: message,
         statusCode: 200,
@@ -119,6 +116,48 @@ export class MessageController {
       return res.status(200).json({
         isSuccess: true,
         data: message,
+        statusCode: 200,
+        message: 'Record updated successfully.',
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getSeenMessages(
+    req: Request<{}, {}, {}, SeenMessageDTO>,
+    res: Response,
+    next: NextFunction,
+  ): Promise<any> {
+    try {
+      const { pageNumber, limit } = req?.query || {};
+
+      if (!pageNumber || !limit) {
+        return res.status(400).json({
+          isSuccess: false,
+          data: {},
+          statusCode: 400,
+          message: `Bad Request`,
+        });
+      }
+
+      const { messages, totalCount } = await MessageService.getSeenMessages({
+        pageNumber: Number(pageNumber),
+        limit: Number(limit),
+      });
+
+      if (!messages || !messages?.length) {
+        return res.status(404).send({
+          isSuccess: false,
+          data: {},
+          statusCode: 404,
+          message: `The resource you requested could not be found.`,
+        });
+      }
+
+      return res.status(200).json({
+        isSuccess: true,
+        data: { messages, totalCount },
         statusCode: 200,
         message: 'Record updated successfully.',
       });

@@ -2,9 +2,9 @@
 import Joi from 'joi';
 import { NextFunction, Request, Response } from 'express';
 
-const validateBody = (schema: Joi.ObjectSchema<any>): any => {
+const validateBody = (schema: Joi.ObjectSchema<any>, useQuery = false): any => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const payload = req?.body;
+    const payload = useQuery ? req?.query : req?.body;
 
     const { error } = schema.validate(payload, { abortEarly: false });
     if (error) {
