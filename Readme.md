@@ -1,4 +1,4 @@
-# Drop Haiku
+# Drop Haiku 🖊️
 
 Drop haiku is an api service that allows a user to fetch a haiku out of random. These are mostly cute, romantic and a little cringe in nature.
 
@@ -53,3 +53,5 @@ curl --location 'http://localhost:3000/api/messages/like-dislike-message' \
     "value": true | false
 }'
 ```
+
+Made by Angad Sudesh Srivastav
