@@ -81,7 +81,7 @@ export class MessageService {
 
       return { messages, totalCount };
     } catch (error) {
-      console.error('Logging error in likeDislikeMessage', { error });
+      console.error('Logging error in getSeenMessages', { error });
       return null;
     }
   }

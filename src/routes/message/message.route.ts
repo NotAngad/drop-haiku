@@ -28,7 +28,7 @@ router.post(
 
 /** Get all seen message in a pagination format */
 router.get(
-  '/seen-messages',
+  '/get-seen-messages',
   validateBody(seenMessageSchema, true),
   MessageController.getSeenMessages,
 );

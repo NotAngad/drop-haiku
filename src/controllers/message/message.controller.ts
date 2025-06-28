@@ -36,7 +36,7 @@ export class MessageController {
       const message = await MessageService.getRandomUnusedMessageAndMarkUsed();
 
       if (!message) {
-        res.status(404).send({
+        return res.status(404).send({
           isSuccess: false,
           data: {},
           statusCode: 404,
