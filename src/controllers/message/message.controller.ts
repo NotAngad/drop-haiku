@@ -36,6 +36,7 @@ export class MessageController {
     next: NextFunction,
   ): Promise<any> {
     try {
+      console.log('wow 01');
       const message = await MessageService.getRandomUnusedMessageAndMarkUsed();
 
       if (!message) {

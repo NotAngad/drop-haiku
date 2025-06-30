@@ -5,11 +5,11 @@ import { Router } from 'express';
 import validateBody from '../../middlewares/validateBody';
 
 /** DTO */
+import seenMessageSchema from './dtos/SeenMessage.dto';
 import likeDislikeSchema from './dtos/LikeDislikeMessage.dto';
 
 /** Controller */
 import { MessageController } from '../../controllers/message/message.controller';
-import seenMessageSchema from './dtos/SeenMessage.dto';
 
 const router = Router();
 
