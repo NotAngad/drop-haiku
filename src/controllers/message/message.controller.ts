@@ -23,7 +23,7 @@ export class MessageController {
         isSuccess: true,
         data: { messages, totalCount },
         statusCode: 200,
-        message: 'Record updated successfully.',
+        message: 'Record fetched successfully.',
       });
     } catch (error) {
       next(error);
