@@ -37,7 +37,11 @@ export class MessageService {
   static async getRandomUnusedMessageAndMarkUsed(): Promise<IMessageDocument | null> {
     try {
       const [randomMsg] = await Messages.aggregate([
-        { $match: { hasBeenUsed: false } },
+        {
+          $match: {
+            $or: [{ hasBeenUsed: false }, { liked: false, disliked: false }],
+          },
+        },
         { $sample: { size: 1 } },
       ]);
 
