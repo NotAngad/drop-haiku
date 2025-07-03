@@ -10,7 +10,9 @@ import likeDislikeSchema from './dtos/LikeDislikeMessage.dto';
 
 /** Controller */
 import { MessageController } from '../../controllers/message/message.controller';
-import { tryCatchWrapper } from 'utils/tryCatchWrapper';
+
+/** Utils */
+import { tryCatchWrapper } from '../../utils/tryCatchWrapper';
 
 const router = Router();
 

@@ -10,16 +10,18 @@ import { IMessageDocument } from 'models/message/Message';
 /** DTO */
 import { SeenMessageDTO } from 'routes/message/dtos/SeenMessage.dto';
 import { LikeDislikeMessageDTO } from 'routes/message/dtos/LikeDislikeMessage.dto';
+
+/** Utils */
 import {
-  BAD_REQUEST_CODE,
-  BAD_REQUEST_MESSAGE,
   NOT_FOUND_CODE,
+  BAD_REQUEST_CODE,
   NOT_FOUND_MESSAGE,
   RESOURCE_FOUND_CODE,
-  RESOURCE_FOUND_MESSAGE,
+  BAD_REQUEST_MESSAGE,
   RESOURCE_UPDATED_CODE,
+  RESOURCE_FOUND_MESSAGE,
   RESOURCE_UPDATED_MESSAGE,
-} from 'utils/constants';
+} from '../../utils/constants';
 
 export class MessageController {
   static async getAllMessages(req: Request, res: Response, next: NextFunction): Promise<any> {

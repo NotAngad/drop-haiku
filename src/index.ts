@@ -8,7 +8,7 @@ import routes from './routes/index.route';
 
 /** Utility */
 import { connectDB } from './lib/mongoose';
-import { INTERNAL_SERVER_ERROR_CODE, INTERNAL_SERVER_ERROR_MESSAGE } from 'utils/constants';
+import { INTERNAL_SERVER_ERROR_CODE, INTERNAL_SERVER_ERROR_MESSAGE } from './utils/constants';
 
 const app: Application = express();
 
