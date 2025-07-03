@@ -8,8 +8,8 @@ import { MessageService } from '../../services/message/message.service';
 import { IMessageDocument } from 'models/message/Message';
 
 /** DTO */
-import { LikeDislikeMessageDTO } from 'routes/message/dtos/LikeDislikeMessage.dto';
 import { SeenMessageDTO } from 'routes/message/dtos/SeenMessage.dto';
+import { LikeDislikeMessageDTO } from 'routes/message/dtos/LikeDislikeMessage.dto';
 
 export class MessageController {
   static async getAllMessages(req: Request, res: Response, next: NextFunction): Promise<any> {
