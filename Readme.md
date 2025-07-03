@@ -6,7 +6,7 @@ Drop haiku is an api service that allows a user to fetch a haiku out of random. 
 
 ## Try the api here
 
-https://drop-message.onrender.com/api/messages
+https://drop-haiku.onrender.com/api/messages
 
 You may experience certain lag as cold starts usually take 50 seconds
 
