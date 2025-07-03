@@ -8,6 +8,7 @@ import routes from './routes/index.route';
 
 /** Utility */
 import { connectDB } from './lib/mongoose';
+import { INTERNAL_SERVER_ERROR_CODE, INTERNAL_SERVER_ERROR_MESSAGE } from 'utils/constants';
 
 const app: Application = express();
 
@@ -45,8 +46,8 @@ app.use('/api', routes);
 app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
   console.error('Error:', err);
 
-  const statusCode = err.statusCode || err.status || 500;
-  const message = err.message || 'Internal Server Error';
+  const statusCode = err.statusCode || err.status || INTERNAL_SERVER_ERROR_CODE;
+  const message = err.message || INTERNAL_SERVER_ERROR_MESSAGE;
 
   res.status(statusCode).json({
     isSuccess: false,

@@ -10,6 +10,16 @@ import { IMessageDocument } from 'models/message/Message';
 /** DTO */
 import { SeenMessageDTO } from 'routes/message/dtos/SeenMessage.dto';
 import { LikeDislikeMessageDTO } from 'routes/message/dtos/LikeDislikeMessage.dto';
+import {
+  BAD_REQUEST_CODE,
+  BAD_REQUEST_MESSAGE,
+  NOT_FOUND_CODE,
+  NOT_FOUND_MESSAGE,
+  RESOURCE_FOUND_CODE,
+  RESOURCE_FOUND_MESSAGE,
+  RESOURCE_UPDATED_CODE,
+  RESOURCE_UPDATED_MESSAGE,
+} from 'utils/constants';
 
 export class MessageController {
   static async getAllMessages(req: Request, res: Response, next: NextFunction): Promise<any> {
@@ -19,11 +29,11 @@ export class MessageController {
         limit: Number(req?.query?.limit) || null,
       });
 
-      return res.status(200).json({
+      return res.status(RESOURCE_FOUND_CODE).json({
         isSuccess: true,
         data: { messages, totalCount },
-        statusCode: 200,
-        message: 'Record fetched successfully.',
+        statusCode: RESOURCE_FOUND_CODE,
+        message: RESOURCE_FOUND_MESSAGE,
       });
     } catch (error) {
       next(error);
@@ -39,19 +49,19 @@ export class MessageController {
       const message = await MessageService.getRandomUnusedMessageAndMarkUsed();
 
       if (!message) {
-        return res.status(404).send({
+        return res.status(NOT_FOUND_CODE).send({
           isSuccess: false,
           data: {},
-          statusCode: 404,
-          message: `The resource you requested could not be found.`,
+          statusCode: NOT_FOUND_CODE,
+          message: NOT_FOUND_MESSAGE,
         });
       }
 
-      return res.status(200).json({
+      return res.status(RESOURCE_FOUND_CODE).json({
         isSuccess: true,
         data: message,
-        statusCode: 200,
-        message: 'Record fetched successfully.',
+        statusCode: RESOURCE_FOUND_CODE,
+        message: RESOURCE_FOUND_MESSAGE,
       });
     } catch (error) {
       next(error);
@@ -63,30 +73,30 @@ export class MessageController {
       const { id } = req.params;
 
       if (!id) {
-        return res.status(400).json({
+        return res.status(BAD_REQUEST_CODE).json({
           isSuccess: false,
           data: {},
-          statusCode: 400,
-          message: `Bad Request`,
+          statusCode: BAD_REQUEST_CODE,
+          message: BAD_REQUEST_MESSAGE,
         });
       }
 
       const message: IMessageDocument | null = await MessageService.getMessageBasedOnId(`${id}`);
 
       if (!message) {
-        return res.status(404).send({
+        return res.status(NOT_FOUND_CODE).send({
           isSuccess: false,
           data: {},
-          statusCode: 404,
-          message: `The resource you requested could not be found.`,
+          statusCode: NOT_FOUND_CODE,
+          message: NOT_FOUND_MESSAGE,
         });
       }
 
-      return res.status(200).json({
+      return res.status(RESOURCE_FOUND_CODE).json({
         isSuccess: true,
         data: message,
-        statusCode: 200,
-        message: 'Record fetched successfully.',
+        statusCode: RESOURCE_FOUND_CODE,
+        message: RESOURCE_FOUND_MESSAGE,
       });
     } catch (error) {
       next(error);
@@ -108,19 +118,19 @@ export class MessageController {
       });
 
       if (!message) {
-        return res.status(404).send({
+        return res.status(NOT_FOUND_CODE).send({
           isSuccess: false,
           data: {},
-          statusCode: 404,
-          message: `The resource you requested could not be found.`,
+          statusCode: NOT_FOUND_CODE,
+          message: NOT_FOUND_MESSAGE,
         });
       }
 
-      return res.status(200).json({
+      return res.status(RESOURCE_FOUND_CODE).json({
         isSuccess: true,
         data: message,
-        statusCode: 200,
-        message: 'Record updated successfully.',
+        statusCode: RESOURCE_FOUND_CODE,
+        message: RESOURCE_UPDATED_MESSAGE,
       });
     } catch (error) {
       next(error);
@@ -136,11 +146,11 @@ export class MessageController {
       const { pageNumber, limit } = req?.query || {};
 
       if (!pageNumber || !limit) {
-        return res.status(400).json({
+        return res.status(BAD_REQUEST_CODE).json({
           isSuccess: false,
           data: {},
-          statusCode: 400,
-          message: `Bad Request`,
+          statusCode: BAD_REQUEST_CODE,
+          message: BAD_REQUEST_MESSAGE,
         });
       }
 
@@ -150,19 +160,19 @@ export class MessageController {
       });
 
       if (!messages || !messages?.length) {
-        return res.status(404).send({
+        return res.status(NOT_FOUND_CODE).send({
           isSuccess: false,
           data: {},
-          statusCode: 404,
-          message: `The resource you requested could not be found.`,
+          statusCode: NOT_FOUND_CODE,
+          message: NOT_FOUND_MESSAGE,
         });
       }
 
-      return res.status(200).json({
+      return res.status(RESOURCE_UPDATED_CODE).json({
         isSuccess: true,
         data: { messages, totalCount },
-        statusCode: 200,
-        message: 'Record updated successfully.',
+        statusCode: RESOURCE_UPDATED_CODE,
+        message: RESOURCE_UPDATED_MESSAGE,
       });
     } catch (error) {
       next(error);

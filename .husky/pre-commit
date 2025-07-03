@@ -1,2 +1,8 @@
 npx lint-staged
 
+echo "Building project..."
+npm run build
+
+# Add build output to the commit
+echo "Staging build output..."
+git add dist/

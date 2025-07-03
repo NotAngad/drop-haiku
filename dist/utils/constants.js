@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RESOURCE_UPDATED_MESSAGE = exports.RESOURCE_UPDATED_CODE = exports.RESOURCE_FOUND_MESSAGE = exports.RESOURCE_FOUND_CODE = exports.INTERNAL_SERVER_ERROR_MESSAGE = exports.INTERNAL_SERVER_ERROR_CODE = exports.NOT_FOUND_MESSAGE = exports.NOT_FOUND_CODE = exports.BAD_REQUEST_MESSAGE = exports.BAD_REQUEST_CODE = void 0;
+exports.BAD_REQUEST_CODE = 400;
+exports.BAD_REQUEST_MESSAGE = 'Bad Request';
+exports.NOT_FOUND_CODE = 404;
+exports.NOT_FOUND_MESSAGE = 'The resource you requested could not be found.';
+exports.INTERNAL_SERVER_ERROR_CODE = 500;
+exports.INTERNAL_SERVER_ERROR_MESSAGE = 'Internal Server Error';
+exports.RESOURCE_FOUND_CODE = 200;
+exports.RESOURCE_FOUND_MESSAGE = 'Record fetched successfully.';
+exports.RESOURCE_UPDATED_CODE = 200;
+exports.RESOURCE_UPDATED_MESSAGE = 'Record updated successfully.';
